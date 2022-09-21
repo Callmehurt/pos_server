@@ -7,8 +7,8 @@ const verifyRoles = (...allowedRoles) => {
         }
 
         const rolesArray = [...allowedRoles];
-        console.log(rolesArray);
-        console.log(req.role);
+        // console.log(rolesArray);
+        // console.log(req.role);
         const result = rolesArray.includes(req.role);
         if(!result){
             return res.status(401).json({

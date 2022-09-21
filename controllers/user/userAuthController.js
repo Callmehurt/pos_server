@@ -57,7 +57,7 @@ exports.login_user = async (req, res) => {
                 role: user.role
             },
             process.env.ACCESS_SECRET,
-            {expiresIn: '200s'}
+            {expiresIn: '1d'}
         )
 
         const refreshToken = jwt.sign(
