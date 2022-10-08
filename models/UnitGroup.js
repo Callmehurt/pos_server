@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// const Unit = require('./Units');
 
 const unitsSchema = new mongoose.Schema({
     name: {
@@ -13,5 +14,9 @@ const unitsSchema = new mongoose.Schema({
 }, {
     timestamps: true
 })
+
+// unitsSchema.post('remove', function (doc){
+//     Unit.remove({unitGroup: { $in: doc.id }})
+// });
 
 module.exports = mongoose.model('UnitGroup', unitsSchema);

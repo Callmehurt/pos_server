@@ -17,6 +17,7 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/userRoutes');
 const mediaRoutes = require('./routes/mediaRoute');
 const unitRoutes = require('./routes/unitRoutes');
+const categoryRoutes = require('./routes/categoryRoutes');
 
 const app = express();
 const connectDB = require('./db/connect');
@@ -45,6 +46,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/admin', mediaRoutes);
 app.use('/api/v1/admin', unitRoutes);
+app.use('/api/v1/admin', categoryRoutes);
 
 
 //middleware

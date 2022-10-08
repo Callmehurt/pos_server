@@ -43,6 +43,37 @@ exports.create_unit_group = async (req, res) => {
 }
 
 
+exports.delete_unit_group = async (req, res) => {
+    try {
+
+        const unitGroupId = req.params.unitGroupId;
+
+        const unit = await UnitGroup.findById(unitGroupId).exec();
+
+        if(!unit){
+            return res.status(500).json({
+                message: 'Unit group not found'
+            })
+        }
+
+        await Units.deleteMany({unitGroup: unit.id});
+        unit.deleteOne();
+        res.status(200).json({
+            message: 'Unit group deleted successfully'
+        })
+
+    }catch (e) {
+        console.log(e);
+        return res.status(500).json(e)
+    }
+}
+
+exports.fetch_unit_group = async (req, res) => {
+    const data = await UnitGroup.find({}).exec();
+    res.status(200).json(data);
+}
+
+
 //unit actions
 exports.create_unit = async (req, res) => {
     try {
@@ -76,13 +107,18 @@ exports.create_unit = async (req, res) => {
 
         try{
             await newUnit.save();
+            const result = await newUnit.populate({
+                strictPopulate: false,
+                path: 'unitGroup',
+                select: 'name'
+            });
             res.status(200).json({
                 message: 'Unit created successfully',
-                data: newUnit
+                data: result
             })
         }catch (err){
-            console.log(e);
-            res.status(500).json(e)
+            console.log(err);
+            res.status(500).json(err)
         }
 
 
@@ -108,10 +144,15 @@ exports.update_unit = async (req, res) => {
             const unit = await Units.findByIdAndUpdate(unitId, other, {
                 returnOriginal: false
             }).exec();
+            const result = await unit.populate({
+                strictPopulate: false,
+                path: 'unitGroup',
+                select: 'name'
+            });
 
             res.status(200).json({
                 message: 'Updated successfully',
-                data: unit
+                data: result
             })
         }catch (err){
             console.log(err);
@@ -146,6 +187,32 @@ exports.delete_unit = async (req, res) => {
         console.log(e);
         return res.status(500).json(e)
     }
+}
+
+
+exports.fetch_units = async (req, res) => {
+    // let finalResult = [];
+    // const result = await UnitGroup.aggregate([{
+    //     $lookup: {
+    //         from: "units",
+    //         localField: "_id",
+    //         foreignField: "unitGroup",
+    //         as: "units"
+    //     }
+    // }]).then((response) => {
+    //     response.forEach((data) => {
+    //         finalResult = [...finalResult, data.units]
+    //         // res.status(200).json(obj)
+    //     })
+    // })
+
+    const result = await Units.find().populate({
+        strictPopulate: false,
+        path: 'unitGroup',
+        select: 'name'
+    });
+
+    res.status(200).json(result)
 }
 
 
