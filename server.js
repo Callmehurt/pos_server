@@ -18,6 +18,10 @@ const userRoutes = require('./routes/userRoutes');
 const mediaRoutes = require('./routes/mediaRoute');
 const unitRoutes = require('./routes/unitRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const productRoutes = require('./routes/productRoutes');
+const providerRoutes = require('./routes/providerRoutes');
+const procurementRoutes = require('./routes/procurementRoutes');
+const tableRoutes = require('./routes/tableRoutes');
 
 const app = express();
 const connectDB = require('./db/connect');
@@ -47,6 +51,10 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/admin', mediaRoutes);
 app.use('/api/v1/admin', unitRoutes);
 app.use('/api/v1/admin', categoryRoutes);
+app.use('/api/v1/admin', productRoutes);
+app.use('/api/v1/admin', providerRoutes);
+app.use('/api/v1/admin', procurementRoutes);
+app.use('/api/v1/admin', tableRoutes);
 
 
 //middleware

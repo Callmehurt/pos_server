@@ -5,7 +5,6 @@ const sharp = require('sharp')
 
 
 exports.upload_media = async (req, res) => {
-    const mediaList = [];
     const mediaFiles = req.files;
 
     if(mediaFiles.length < 1){
@@ -14,19 +13,6 @@ exports.upload_media = async (req, res) => {
         })
     }
 
-    // mediaFiles.map(async (file, index) => {
-    //     let buffer = await sharp(file.buffer).resize({width: 250, height: 250}).png().toBuffer();
-    //     const newMedia = new Media({
-    //         _id: new mongoose.Types.ObjectId(),
-    //         image: buffer,
-    //     });
-    //     try {
-    //         await newMedia.save();
-    //     }catch (e){
-    //         console.log(e)
-    //         res.status(500).json(e)
-    //     }
-    // });
 
     const list = await Promise.all(
          mediaFiles.map(async (file, index) => {

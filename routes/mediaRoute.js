@@ -23,6 +23,7 @@ router.post('/upload-media', verifyToken, verifyRole('admin'), upload.array('med
 
 router.delete('/delete/media/:id', verifyToken, verifyRole('admin'), mediaUploadController.delete_media);
 router.get('/get/media/:id', verifyToken, verifyRole('admin'), mediaUploadController.serve_media);
+router.get('/fetch/media/:id', mediaUploadController.serve_media);
 router.get('/fetch/all-media', verifyToken, verifyRole('admin'), mediaUploadController.media_list);
 
 module.exports = router;
