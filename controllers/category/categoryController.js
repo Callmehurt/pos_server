@@ -111,3 +111,14 @@ exports.fetch_categories = async (req, res) => {
         return res.status(500).json(e)
     }
 }
+
+exports.fetch_child_categories = async (req, res) => {
+    try{
+        const parentId = req.params.parentId;
+        const selected = await Category.findById(parentId);
+        const data = await Category.find({'parent._id': selected._id})
+        res.status(200).json(data);
+    }catch (e){
+        return res.status(500).json(e)
+    }
+}

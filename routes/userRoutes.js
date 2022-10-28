@@ -18,7 +18,7 @@ router.get('/try',async (req, res) => {
         message: 'Okay'
     })
 })
-router.get('/test', verifyJWT, verifyRole('admin'), async (req, res) => {
+router.get('/test', verifyJWT, verifyRole(['admin']), async (req, res) => {
     res.status(200).json({
         message: 'Okay',
     })

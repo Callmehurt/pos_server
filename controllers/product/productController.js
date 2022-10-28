@@ -169,3 +169,35 @@ exports.fetch_products = async (req, res) => {
     res.status(200).json(data)
 }
 
+
+exports.fetch_category_specific_product = async (req, res) => {
+    try{
+        const categoryId = req.params.categoryId
+        const data = await Product.find({category: categoryId}).populate([
+        {
+          strictPopulate: false,
+          path: 'category',
+          select: 'name'
+        },
+        {
+          strictPopulate: false,
+          path: 'thumbnail',
+          select: 'image'
+        },
+        {
+         strictPopulate: false,
+         path: 'unitGroup',
+         select: 'name'
+        },
+        {
+         strictPopulate: false,
+         path: 'assignedUnit',
+         select: ['name', 'identifier']
+        },
+    ]).exec();
+
+    res.status(200).json(data)
+    }catch (e) {
+        return res.status(500).json(e)
+    }
+}

@@ -1,4 +1,4 @@
-const verifyRoles = (...allowedRoles) => {
+const verifyRoles = ([...allowedRoles]) => {
     return (req, res, next) => {
         if(!req?.role){
             return res.status(401).json({

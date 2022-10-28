@@ -17,13 +17,13 @@ const upload = multer({
 });
 
 
-router.post('/upload-media', verifyToken, verifyRole('admin'), upload.array('media', 20), mediaUploadController.upload_media, (error, req, res, next) => {
+router.post('/upload-media', verifyToken, verifyRole(['admin']), upload.array('media', 20), mediaUploadController.upload_media, (error, req, res, next) => {
     res.status(400).json({error: error.message})
 });
 
-router.delete('/delete/media/:id', verifyToken, verifyRole('admin'), mediaUploadController.delete_media);
-router.get('/get/media/:id', verifyToken, verifyRole('admin'), mediaUploadController.serve_media);
+router.delete('/delete/media/:id', verifyToken, verifyRole(['admin']), mediaUploadController.delete_media);
+router.get('/get/media/:id', verifyToken, verifyRole(['admin']), mediaUploadController.serve_media);
 router.get('/fetch/media/:id', mediaUploadController.serve_media);
-router.get('/fetch/all-media', verifyToken, verifyRole('admin'), mediaUploadController.media_list);
+router.get('/fetch/all-media', verifyToken, verifyRole(['admin']), mediaUploadController.media_list);
 
 module.exports = router;
