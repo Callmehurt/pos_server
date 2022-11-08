@@ -25,6 +25,7 @@ const tableRoutes = require('./routes/tableRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 const cashFlowRoutes = require('./routes/cashFlowRoutes');
 const expenseRoutes = require('./routes/expenseRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 
 const app = express();
 const connectDB = require('./db/connect');
@@ -61,6 +62,7 @@ app.use('/api/v1/admin', tableRoutes);
 app.use('/api/v1/admin', cashFlowRoutes);
 app.use('/api/v1/admin', expenseRoutes);
 
+app.use('/api/v1/', dashboardRoutes);
 app.use('/api/v1/', orderRoutes);
 
 

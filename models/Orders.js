@@ -35,12 +35,12 @@ const orderSchema = new mongoose.Schema({
         default: 0
     },
     subTotal: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },
     total: {
-        type: String,
-        default: '0'
+        type: Number,
+        default: 0
     },
     reference: {
         type: String,
