@@ -23,6 +23,8 @@ const providerRoutes = require('./routes/providerRoutes');
 const procurementRoutes = require('./routes/procurementRoutes');
 const tableRoutes = require('./routes/tableRoutes');
 const orderRoutes = require('./routes/orderRoutes');
+const cashFlowRoutes = require('./routes/cashFlowRoutes');
+const expenseRoutes = require('./routes/expenseRoutes');
 
 const app = express();
 const connectDB = require('./db/connect');
@@ -56,6 +58,8 @@ app.use('/api/v1/admin', productRoutes);
 app.use('/api/v1/admin', providerRoutes);
 app.use('/api/v1/admin', procurementRoutes);
 app.use('/api/v1/admin', tableRoutes);
+app.use('/api/v1/admin', cashFlowRoutes);
+app.use('/api/v1/admin', expenseRoutes);
 
 app.use('/api/v1/', orderRoutes);
 

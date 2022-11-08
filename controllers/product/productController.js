@@ -1,4 +1,5 @@
 const Product = require('../../models/Product');
+const StockFlow = require('../../models/StockFlow');
 const mongoose = require('mongoose');
 
 
@@ -130,7 +131,8 @@ exports.delete_product = async (req, res) => {
             })
         }
 
-        product.deleteOne();
+        await product.deleteOne();
+        await StockFlow.deleteMany({product : product._id});
         res.status(200).json({
             message: 'Product deleted successfully'
         });
@@ -173,7 +175,7 @@ exports.fetch_products = async (req, res) => {
 exports.fetch_category_specific_product = async (req, res) => {
     try{
         const categoryId = req.params.categoryId
-        const data = await Product.find({category: categoryId}).populate([
+        const data = await Product.find({category: categoryId, onStock: {$gt: 0}}).populate([
         {
           strictPopulate: false,
           path: 'category',

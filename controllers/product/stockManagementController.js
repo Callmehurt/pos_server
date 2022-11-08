@@ -1,5 +1,6 @@
 const Product = require('../../models/Product');
 const StockFlow = require('../../models/StockFlow');
+const CashFlow = require('../../models/CashFlow');
 const mongoose = require('mongoose');
 
 exports.get_searched_products = async (req, res) => {
@@ -64,6 +65,13 @@ exports.adjust_stock = async (req, res) => {
                 });
                 if(action === 'add'){
                     await Product.findByIdAndUpdate(product._id, {onStock: parseInt(product.onStock)+parseInt(changedQuantity)});
+                    const cashFlow = new CashFlow({
+                        _id: new mongoose.Types.ObjectId(),
+                        name: 'Stock Adjustment: '.concat(product.name),
+                        value: parseInt(changedQuantity)*parseInt(product.salePrice),
+                        operation: 'debit',
+                    });
+                    await cashFlow.save();
                 }else if (action === 'deduct' || action === 'defective' || action === 'lost'){
                     if(parseInt(product.onStock) < parseInt(changedQuantity)){
                         res.status(500).json({
@@ -118,7 +126,7 @@ exports.fetch_stock_flow = async (req, res) => {
                 {
                   strictPopulate: false,
                   path: 'product',
-                  select: 'name',
+                  select: ['name', 'stockManagement'],
                   populate: ([
                       {
                           strictPopulate: false,
@@ -131,6 +139,11 @@ exports.fetch_stock_flow = async (req, res) => {
                   strictPopulate: false,
                   path: 'procurement',
                   select: ['name']
+               },
+                {
+                  strictPopulate: false,
+                  path: 'order',
+                  select: ['orderCode']
                }
             ]).sort({createdAt: -1});
 

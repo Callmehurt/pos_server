@@ -1,6 +1,7 @@
 const Procurements = require('../../models/Procurements');
 const Product = require('../../models/Product');
 const StockFlow = require('../../models/StockFlow');
+const CashFlow = require('../../models/CashFlow');
 const mongoose = require('mongoose');
 
 
@@ -39,7 +40,15 @@ exports.register_procurement = async (req, res) => {
                     await stockRecord.save();
                     await Product.findByIdAndUpdate(data._id, {onStock: newQuantity});
                 })
-            )
+            );
+
+            const cashFlow = new CashFlow({
+                _id: new mongoose.Types.ObjectId(),
+                name: 'Procurement: '.concat(newRecord.name),
+                value: newRecord.purchaseValue,
+                operation: 'debit',
+            });
+            await cashFlow.save();
         }
 
         await newRecord.save();
@@ -83,7 +92,17 @@ exports.update_procurement = async (req, res) => {
                     await stockRecord.save();
                     await Product.findByIdAndUpdate(data._id, {onStock: newQuantity});
                 })
-            )
+            );
+
+            const procurement = await Procurements.findById(procurementId);
+
+            const cashFlow = new CashFlow({
+                _id: new mongoose.Types.ObjectId(),
+                name: 'Procurement: '.concat(procurement.name),
+                value: procurement.purchaseValue,
+                operation: 'debit',
+            });
+            await cashFlow.save();
         }
         const data = await Procurements.findByIdAndUpdate(procurementId, other, {
                 returnOriginal: false

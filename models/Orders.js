@@ -2,13 +2,9 @@ const mongoose = require('mongoose');
 
 
 const orderSchema = new mongoose.Schema({
-    orderId: {
+    orderCode: {
         type: String,
         default: ''
-    },
-    tableNumber: {
-        type: mongoose.Types.ObjectId,
-        ref: 'Tables',
     },
     orderType: {
         type: String,
@@ -22,8 +18,8 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus: {
         type: String,
-        enum: ['ongoing', 'complete'],
-        default: 'ongoing'
+        enum: ['hold', 'complete'],
+        default: 'hold'
     },
     discountType: {
         type: String,
@@ -46,6 +42,15 @@ const orderSchema = new mongoose.Schema({
         type: String,
         default: '0'
     },
+    reference: {
+        type: String,
+        default: ''
+    },
+    paymentMethod: {
+        type: String,
+        enum: ['cash', 'esewa', 'mobank'],
+        default: 'cash'
+    },
     partialPayment: {
         type: Boolean,
         default: false
@@ -62,10 +67,12 @@ const orderSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    orderedProducts: {
+    products: {
         type: mongoose.Schema.Types.Mixed,
         default: null
-    }
+    },
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Orders', orderSchema);

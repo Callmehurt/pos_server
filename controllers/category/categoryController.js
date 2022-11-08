@@ -1,6 +1,7 @@
 
 const Category = require('../../models/Category');
 const Media = require('../../models/Media');
+const Product = require('../../models/Product');
 const mongoose = require('mongoose');
 
 
@@ -17,9 +18,12 @@ exports.create_category = async (req, res) => {
 
         let parent = null;
         if(req.body.parentId !== ''){
-            parent =  await Category.findOne({_id: req.body.parentId}, {name: 1}).exec();
+            parent = await Category.findOne({_id: req.body.parentId}, {name: 1}).exec();
         }
-        const media = await Media.findById(req.body.mediaId, {image: 1}).exec();
+        let media = null;
+        if(req.body.mediaId !== ''){
+            media = await Media.findById(req.body.mediaId, {image: 1}).exec();
+        }
 
         const newCategory = new Category({
             _id: new mongoose.Types.ObjectId(),
@@ -91,6 +95,7 @@ exports.delete_category = async (req, res) => {
         }
 
         await Category.deleteMany({"parent._id" : preData._id});
+        await Product.deleteMany({category : preData._id});
         preData.deleteOne();
         res.status(200).json({
             message: 'Category deleted successfully'

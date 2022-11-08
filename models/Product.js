@@ -51,7 +51,8 @@ const productSchema = new mongoose.Schema({
     },
     onStock: {
         type: String,
-        default: '1'
+        default: '1',
+        min: '0'
     }
 },
     {
