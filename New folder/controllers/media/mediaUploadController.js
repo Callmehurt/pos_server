@@ -13,6 +13,7 @@ exports.upload_media = async (req, res) => {
         })
     }
 
+
     const list = await Promise.all(
          mediaFiles.map(async (file, index) => {
             let buffer = await sharp(file.buffer).resize({width: 250, height: 250}).png().toBuffer();

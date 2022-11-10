@@ -74,7 +74,7 @@ const port = process.env.PORT || 4000
 
 const start = async () => {
     try{
-        await connectDB(process.env.MONGO_URI_ATLAS)
+        await connectDB('mongodb+srv://chiyastation:7yxYJ4zTzAVVUsEg@chiyastationdatabase.tyer2wl.mongodb.net/?retryWrites=true&w=majority')
         app.listen(port, console.log(`Listening to port ${port}...`))
     }catch (e){
         console.log(e)
