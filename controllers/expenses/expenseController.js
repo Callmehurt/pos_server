@@ -38,6 +38,15 @@ exports.register_expenses = async (req, res) => {
     }
 }
 
+exports.fetch_expenses = async (req, res) => {
+    try{
+        const data = await Expenses.find({}).sort({createdAt: -1});
+        res.status(200).json(data);
+    }catch (e) {
+        return res.status(500).json(e)
+    }
+}
+
 exports.update_expense = async (req, res) => {
     try{
         const {expenseId, ...other} = req.body;

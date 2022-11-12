@@ -9,6 +9,7 @@ const expenseController = require('../controllers/expenses/expenseController');
 router.post('/register/expense', verifyToken, verifyRole(['admin']), expenseController.register_expenses);
 router.delete('/delete/:expenseId/expense', verifyToken, verifyRole(['admin']), expenseController.delete_expense);
 router.put('/update/expense', verifyToken, verifyRole(['admin']), expenseController.update_expense);
+router.get('/fetch/expenses', verifyToken, verifyRole(['admin']), expenseController.fetch_expenses);
 
 
 module.exports = router;
